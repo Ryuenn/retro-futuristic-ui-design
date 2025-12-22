@@ -6,7 +6,11 @@ interface MenuOption {
   label: string;
 }
 
-const CRTTerminal: React.FC = () => {
+interface CRTTerminalProps {
+  scale?: number; // Scale factor (e.g., 0.5 for 50%, 1 for 100%, 1.5 for 150%)
+}
+
+const CRTTerminal: React.FC<CRTTerminalProps> = ({ scale = 1 }) => {
   const [bootSequence, setBootSequence] = useState<number>(0);
   const [showCursor, setShowCursor] = useState<boolean>(true);
   const [selectedOption, setSelectedOption] = useState<number>(0);
@@ -80,10 +84,14 @@ const CRTTerminal: React.FC = () => {
   }, [bootSequence]);
 
   return (
-    <div 
+    <div
       className="crt-container"
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      style={{
+        transform: `scale(${scale})`,
+        transformOrigin: 'center center',
+      }}
     >
       <div className="crt-monitor">
         <div className="vent-slots">
