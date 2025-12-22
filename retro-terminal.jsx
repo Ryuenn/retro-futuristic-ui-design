@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const CRTTerminal = () => {
   const [bootSequence, setBootSequence] = useState(0);
@@ -6,6 +6,12 @@ const CRTTerminal = () => {
   const [selectedOption, setSelectedOption] = useState(0);
   const [currentScreen, setCurrentScreen] = useState('boot');
   const [glitchActive, setGlitchActive] = useState(false);
+
+  // Trigger a glitch effect
+  const triggerGlitch = useCallback((duration = 50) => {
+    setGlitchActive(true);
+    setTimeout(() => setGlitchActive(false), duration);
+  }, []);
 
   // Cursor blink effect
   useEffect(() => {
@@ -21,16 +27,15 @@ const CRTTerminal = () => {
     }
   }, [bootSequence]);
 
-  // Random glitch effect
+  // Random glitch effect - more frequent
   useEffect(() => {
     const glitchInterval = setInterval(() => {
-      if (Math.random() > 0.85) {
-        setGlitchActive(true);
-        setTimeout(() => setGlitchActive(false), 50 + Math.random() * 100);
+      if (Math.random() > 0.6) {
+        triggerGlitch(30 + Math.random() * 80);
       }
-    }, 2000);
+    }, 800);
     return () => clearInterval(glitchInterval);
-  }, []);
+  }, [triggerGlitch]);
 
   const menuOptions = [
     { id: 'status', label: 'SYSTEM STATUS' },
@@ -39,15 +44,28 @@ const CRTTerminal = () => {
     { id: 'diagnostics', label: 'RUN DIAGNOSTICS' },
   ];
 
+  const handleOptionHover = (index) => {
+    if (selectedOption !== index) {
+      setSelectedOption(index);
+      triggerGlitch(40);
+    }
+  };
+
+  const handleOptionClick = (index) => {
+    setSelectedOption(index);
+    triggerGlitch(100);
+  };
+
   const handleKeyDown = (e) => {
     if (currentScreen === 'menu') {
       if (e.key === 'ArrowUp') {
         setSelectedOption(prev => (prev > 0 ? prev - 1 : menuOptions.length - 1));
+        triggerGlitch(40);
       } else if (e.key === 'ArrowDown') {
         setSelectedOption(prev => (prev < menuOptions.length - 1 ? prev + 1 : 0));
+        triggerGlitch(40);
       } else if (e.key === 'Enter') {
-        setGlitchActive(true);
-        setTimeout(() => setGlitchActive(false), 150);
+        triggerGlitch(150);
       }
     }
   };
@@ -164,7 +182,7 @@ const CRTTerminal = () => {
               transparent 3px
             );
           pointer-events: none;
-          z-index: 10;
+          z-index: 20;
         }
         
         .crt-screen::after {
@@ -179,14 +197,14 @@ const CRTTerminal = () => {
             rgba(0, 0, 0, 0.3) 100%
           );
           pointer-events: none;
-          z-index: 11;
+          z-index: 21;
         }
         
         .screen-content {
           position: relative;
           height: 100%;
           padding: 40px 50px;
-          z-index: 5;
+          z-index: 10;
           display: flex;
           flex-direction: column;
         }
@@ -196,12 +214,14 @@ const CRTTerminal = () => {
           inset: 0;
           transform: perspective(600px) rotateX(2deg) rotateY(0deg);
           transform-style: preserve-3d;
+          z-index: 5;
         }
         
         .screen-inner {
           width: 100%;
           height: 100%;
           position: relative;
+          z-index: 5;
         }
         
         .glitch-active .screen-warp {
@@ -287,6 +307,8 @@ const CRTTerminal = () => {
         
         .menu-container {
           flex: 1;
+          position: relative;
+          z-index: 100;
         }
         
         .main-content {
@@ -332,17 +354,19 @@ const CRTTerminal = () => {
           font-size: 20px;
           cursor: pointer;
           border: 1px solid transparent;
-          transition: all 0.1s ease;
+          transition: background 0.05s ease, border-color 0.05s ease, box-shadow 0.05s ease;
           position: relative;
+          z-index: 100;
         }
         
         .menu-option::before {
           content: '>';
           margin-right: 15px;
           opacity: 0;
-          transition: opacity 0.1s ease;
+          transition: opacity 0.05s ease;
         }
         
+        .menu-option:hover,
         .menu-option.selected {
           background: rgba(255, 106, 0, 0.1);
           border-color: #ff6a00;
@@ -351,6 +375,7 @@ const CRTTerminal = () => {
             inset 0 0 20px rgba(255, 106, 0, 0.1);
         }
         
+        .menu-option:hover::before,
         .menu-option.selected::before {
           opacity: 1;
         }
@@ -543,8 +568,8 @@ const CRTTerminal = () => {
                         <div
                           key={option.id}
                           className={`menu-option ${selectedOption === index ? 'selected' : ''}`}
-                          onClick={() => setSelectedOption(index)}
-                          onMouseEnter={() => setSelectedOption(index)}
+                          onClick={() => handleOptionClick(index)}
+                          onMouseEnter={() => handleOptionHover(index)}
                         >
                           {option.label}
                           {selectedOption === index && showCursor && (
